@@ -35,12 +35,36 @@ jobs:
         run: npm ci
       
       - name: Build app
+        # Build the React app using Vite
+        # This outputs built static files to the ./dist directory
         run: npm run build
+      
+      - name: Verify build output
+        # Check that the build directory exists and contains the required files
+        # This helps catch build issues before attempting deployment
+        run: |
+          echo "Checking build output directory..."
+          if [ ! -d "./dist" ]; then
+            echo "Error: Build directory './dist' does not exist!"
+            exit 1
+          fi
+          
+          echo "Build directory contents:"
+          ls -la ./dist/
+          
+          if [ ! -f "./dist/index.html" ]; then
+            echo "Error: index.html not found in build directory!"
+            exit 1
+          fi
+          
+          echo "✅ Build verification successful - index.html found in ./dist"
       
       - name: Setup Pages
         uses: actions/configure-pages@v5
       
       - name: Upload artifact
+        # Upload the built static files from ./dist directory
+        # Vite builds to ./dist by default (not ./build like Create React App)
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'

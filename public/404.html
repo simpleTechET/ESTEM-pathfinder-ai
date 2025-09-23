@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redirecting...</title>
+    <script>
+      // GitHub Pages SPA routing hack
+      // This script redirects all routes to the main index.html page
+      // so that React Router can handle client-side routing
+      const path = window.location.pathname;
+      const base = '/pathfinder-ai-64/';
+      
+      if (path !== base) {
+        // Store the attempted path in sessionStorage so the app can handle it
+        sessionStorage.setItem('redirectPath', path.replace(base, '/'));
+        window.location.replace(base);
+      }
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to the application...</p>
+  </body>
+</html>
